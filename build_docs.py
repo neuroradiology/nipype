@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # emacs: -*- mode: python; py-indent-offset: 4; indent-tabs-mode: nil -*-
 # vi: set ft=python sts=4 ts=4 sw=4 et:
 """
@@ -7,8 +8,9 @@ To use this code, run::
 
     python setup.py build_sphinx
 """
-
-from __future__ import print_function
+from __future__ import (print_function, division, unicode_literals,
+                        absolute_import)
+from builtins import open, str
 
 # Standard library imports
 import sys
@@ -22,12 +24,12 @@ from distutils.command.clean import clean
 
 _info_fname = pjoin(os.path.dirname(__file__), 'nipype', 'info.py')
 INFO_VARS = {}
-exec(open(_info_fname, 'rt').read(), {}, INFO_VARS)
+exec(str(open(_info_fname, 'rt').read()), {}, INFO_VARS)
 
 DOC_BUILD_DIR = os.path.join('doc', '_build', 'html')
 DOC_DOCTREES_DIR = os.path.join('doc', '_build', 'doctrees')
 
-################################################################################
+###############################################################################
 # Distutils Command class for installing nipype to a temporary location.
 
 
@@ -62,7 +64,7 @@ class TempInstall(Command):
         pass
 
 
-################################################################################
+###############################################################################
 # Distutils Command class for API generation
 class APIDocs(TempInstall):
     description = \
@@ -92,7 +94,7 @@ class APIDocs(TempInstall):
             os.chdir('..')
 
 
-################################################################################
+###############################################################################
 # Code to copy the sphinx-generated html docs in the distribution.
 def relative_path(filename):
     """ Return the relative path to the file, assuming the file is
@@ -102,7 +104,7 @@ def relative_path(filename):
     return os.path.abspath(filename)[length:]
 
 
-################################################################################
+###############################################################################
 # Distutils Command class build the docs
 # Sphinx import.
 try:
@@ -164,7 +166,7 @@ else:
             self.build_dir = os.path.join(*DOC_BUILD_DIR.split(os.sep)[:-1])
             BuildDoc.finalize_options(self)
 
-################################################################################
+###############################################################################
 # Distutils Command class to clean
 
 

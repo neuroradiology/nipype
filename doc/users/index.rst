@@ -11,19 +11,20 @@
    :maxdepth: 2
 
    install
-   vagrant
-
-   interface_tutorial
+   neurodocker
    caching_tutorial
+
+.. toctree::
+   Nipype tutorials <https://miykael.github.io/nipype_tutorial/>
+   Porcupine graphical interface <https://timvanmourik.github.io/Porcupine/getting-started/>
 
 .. toctree::
    :maxdepth: 1
 
-   pipeline_tutorial
    plugins
    config_file
    debug
-
+   cli
 
 .. toctree::
    :maxdepth: 1
@@ -38,6 +39,9 @@
    spmmcr
    mipav
    nipypecmd
+   aws
+   resource_sched_profiler
+   sphinx_ext
 
 
 

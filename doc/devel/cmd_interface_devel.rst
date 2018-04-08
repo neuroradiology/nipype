@@ -80,7 +80,7 @@ symbols. For an input defined in InputSpec to be included into the executed
 commandline ``argstr`` has to be included. Additionally inside the main
 interface class you need to specify the name of the executable by assigning it
 to the ``_cmd`` field. Also the main interface class needs to inherit from
-:class:`nipype.interfaces.base.CommandLine`:
+:class:`CommandLine <nipype.interfaces.base.core.CommandLine>`:
 
 .. testcode::
 
@@ -198,11 +198,13 @@ output_name (optional)
      name of the output (if this is not set same name as the input will be
      assumed)
 
-keep_extension (optional - not used)
-     if you want the extension from the input to be kept
+keep_extension (optional)
+     if you want the extension from the input or name_template to be kept. The
+     name_template extension always overrides the input extension.
 
 In addition one can add functionality to your class or base class, to allow
-changing extensions specific to package or interface
+changing extensions specific to package or interface. This overload function is
+trigerred only if keep_extension is not defined.
 
 .. testcode::
 

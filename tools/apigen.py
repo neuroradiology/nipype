@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # emacs: -*- mode: python; py-indent-offset: 4; indent-tabs-mode: nil -*-
 # vi: set ft=python sts=4 ts=4 sw=4 et:
 """Attempt to generate templates for module reference with Sphinx
@@ -17,11 +18,12 @@ files are modules, and therefore which module URIs will be passed to
 
 NOTE: this is a modified version of a script originally shipped with the
 PyMVPA project, which we've adapted for NIPY use.  PyMVPA is an MIT-licensed
-project."""
+project.
+"""
+from __future__ import (print_function, division, unicode_literals,
+                        absolute_import)
+from builtins import object, open
 
-# Stdlib imports
-from __future__ import print_function
-from builtins import object
 import os
 import re
 
@@ -34,12 +36,13 @@ class ApiDocWriter(object):
     # only separating first two levels
     rst_section_levels = ['*', '=', '-', '~', '^']
 
-    def __init__(self,
-                 package_name,
-                 rst_extension='.rst',
-                 package_skip_patterns=None,
-                 module_skip_patterns=None,
-                 ):
+    def __init__(
+            self,
+            package_name,
+            rst_extension='.rst',
+            package_skip_patterns=None,
+            module_skip_patterns=None,
+    ):
         ''' Initialize package for parsing
 
         Parameters
@@ -103,7 +106,7 @@ class ApiDocWriter(object):
         ''' Get second token in line
         >>> docwriter = ApiDocWriter('sphinx')
         >>> docwriter._get_object_name("  def func():  ")
-        'func'
+        u'func'
         >>> docwriter._get_object_name("  class Klass(object):  ")
         'Klass'
         >>> docwriter._get_object_name("  class Klass:  ")
@@ -296,8 +299,7 @@ class ApiDocWriter(object):
         elif match_type == 'package':
             patterns = self.package_skip_patterns
         else:
-            raise ValueError('Cannot interpret match type "%s"'
-                             % match_type)
+            raise ValueError('Cannot interpret match type "%s"' % match_type)
         # Match to URI without package name
         L = len(self.package_name)
         if matchstr[:L] == self.package_name:
@@ -341,12 +343,11 @@ class ApiDocWriter(object):
         # raw directory parsing
         for dirpath, dirnames, filenames in os.walk(self.root_path):
             # Check directory names for packages
-            root_uri = self._path2uri(os.path.join(self.root_path,
-                                                   dirpath))
+            root_uri = self._path2uri(os.path.join(self.root_path, dirpath))
             for dirname in dirnames[:]:  # copy list - we modify inplace
                 package_uri = '.'.join((root_uri, dirname))
-                if (self._uri2path(package_uri) and
-                        self._survives_exclude(package_uri, 'package')):
+                if (self._uri2path(package_uri)
+                        and self._survives_exclude(package_uri, 'package')):
                     modules.append(package_uri)
                 else:
                     dirnames.remove(dirname)
@@ -354,8 +355,8 @@ class ApiDocWriter(object):
             for filename in filenames:
                 module_name = filename[:-3]
                 module_uri = '.'.join((root_uri, module_name))
-                if (self._uri2path(module_uri) and
-                        self._survives_exclude(module_uri, 'module')):
+                if (self._uri2path(module_uri)
+                        and self._survives_exclude(module_uri, 'module')):
                     modules.append(module_uri)
         # print sorted(modules)  #dbg
         return sorted(modules)
@@ -368,8 +369,7 @@ class ApiDocWriter(object):
             if not api_str:
                 continue
             # write out to file
-            outfile = os.path.join(outdir,
-                                   m + self.rst_extension)
+            outfile = os.path.join(outdir, m + self.rst_extension)
             fileobj = open(outfile, 'wt')
             fileobj.write(api_str)
             fileobj.close()
